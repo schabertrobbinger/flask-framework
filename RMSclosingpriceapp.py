@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect
+import os
 import io
 import base64
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -6,6 +7,7 @@ from matplotlib.figure import Figure
 import pandas as pds
 import requests
 import simplejson as json
+#this list does not seem to be exhaustive, but is the best I could find
 from get_all_tickers import get_tickers as gt
 list_of_all_tickers = gt.get_tickers()
 
@@ -68,5 +70,7 @@ def image():
             return render_template("image.html", image=pngim64, value=tickersym)
 
 
-if __name__ == '__main__':
-  app.run(port=5000)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+    
